@@ -87,8 +87,7 @@ RUN apk --update add apache2 fcgi perl postgresql-libs openssl graphviz gnupg \
 RUN apk --update add --virtual builddeps gcc perl-dev musl-dev make postgresql-dev zlib-dev expat-dev
 
 # use cpanminus to install modules not provided through apk
-RUN curl -L http://xrl.us/cpanm > /bin/cpanm && chmod +x /bin/cpanm && \
-	cpanm -n GnuPG::Interface PerlIO::eol
+RUN curl -L https://cpanmin.us > /bin/cpanm && chmod +x /bin/cpanm && cpanm -n GnuPG::Interface PerlIO::eol
 
 RUN cd /build/rt-${RT_VERSION} && ./configure \
 		--prefix=/opt/rt \
