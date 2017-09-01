@@ -10,7 +10,7 @@ RUN apk --update --no-cache add ca-certificates curl wget
 RUN mkdir /build && cd /build && wget "https://download.bestpractical.com/pub/rt/release/rt-${RT_VERSION}.tar.gz" \
 	&& echo "${RT_SHA256}  rt-${RT_VERSION}.tar.gz" | sha256sum -c \
 	&& tar -xzvf rt-${RT_VERSION}.tar.gz
-RUN apk --update add apache2 fcgi perl postgresql-libs openssl graphviz gnupg \
+RUN apk --update add apache2 fcgi apache-mod-fcgid perl postgresql-libs openssl graphviz gnupg \
 	perl-apache-session \
 	perl-cgi \
 	perl-dbi \
