@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
 MAINTAINER Andy Cobaugh <andrew.cobaugh@gmail.com>
 
@@ -81,20 +81,21 @@ RUN apk --update add apache2 fcgi apache-mod-fcgid perl postgresql-libs openssl 
 	perl-tree-simple \
 	perl-html-mason \
 	perl-mime-types \
-	perl-html-scrubber
+	perl-html-scrubber \
+	mariadb-libs
 
 # build dependencies
-RUN apk --update add --virtual builddeps gcc perl-dev musl-dev make postgresql-dev zlib-dev expat-dev
+RUN apk --update add --virtual builddeps gcc perl-dev musl-dev make postgresql-dev zlib-dev expat-dev mariadb-dev
 
 # use cpanminus to install modules not provided through apk
-RUN curl -L https://cpanmin.us > /bin/cpanm && chmod +x /bin/cpanm && cpanm -n GnuPG::Interface PerlIO::eol
+RUN curl -L https://cpanmin.us > /bin/cpanm && chmod +x /bin/cpanm && cpanm -n GnuPG::Interface PerlIO::eol DBD::mysql@4.041
 
 RUN cd /build/rt-${RT_VERSION} && ./configure \
 		--prefix=/opt/rt \
 		--enable-gd \
 		--enable-smime \
 		--enable-graphviz \
-		--with-db-type=Pg \
+		--with-db-type=mysql \
 		--enable-externalauth \
 		--with-web-user=root \
 		--with-web-group=root \
