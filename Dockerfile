@@ -88,7 +88,7 @@ RUN apk --update add apache2 fcgi apache-mod-fcgid perl postgresql-libs openssl 
 RUN apk --update add --virtual builddeps gcc perl-dev musl-dev make postgresql-dev zlib-dev expat-dev mariadb-dev
 
 # use cpanminus to install modules not provided through apk
-RUN curl -L https://cpanmin.us > /bin/cpanm && chmod +x /bin/cpanm && cpanm -n GnuPG::Interface PerlIO::eol DBD::mysql@4.041
+RUN curl -L https://cpanmin.us > /bin/cpanm && chmod +x /bin/cpanm && cpanm -n -L /usr/local/lib/perl5/site_perl GnuPG::Interface PerlIO::eol DBD::mysql@4.041
 
 RUN cd /build/rt-${RT_VERSION} && ./configure \
 		--prefix=/opt/rt \
