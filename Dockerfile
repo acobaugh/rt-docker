@@ -82,7 +82,9 @@ RUN apk --update add apache2 fcgi apache-mod-fcgid perl postgresql-libs openssl 
 	perl-html-mason \
 	perl-mime-types \
 	perl-html-scrubber \
-	mariadb-libs
+	mariadb-libs \
+	mariadb-client \
+	mariadb-client-libs
 
 # build dependencies
 RUN apk --update add --virtual builddeps gcc perl-dev musl-dev make postgresql-dev zlib-dev expat-dev mariadb-dev
