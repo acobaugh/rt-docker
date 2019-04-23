@@ -1,9 +1,9 @@
-FROM alpine:3.7
+FROM alpine:3.9
 
 MAINTAINER Andy Cobaugh <andrew.cobaugh@gmail.com>
 
-ENV RT_VERSION 4.4.2
-ENV RT_SHA256 b2e366e18c8cb1dfd5bc6c46c116fd28cfa690a368b13fbf3131b21a0b9bbe68
+ENV RT_VERSION 4.4.0
+ENV RT_SHA256 dd2433b8c3da5eeafa8eac9e4a1109d3ff8d20560301ce9f65eda7dd1d28ffc1
 ENV RT_FIX_DEPS_CMD=/bin/cpanm
 
 RUN apk --update --no-cache add ca-certificates curl wget
@@ -82,7 +82,7 @@ RUN apk --update add apache2 fcgi apache-mod-fcgid perl postgresql-libs openssl 
 	perl-html-mason \
 	perl-mime-types \
 	perl-html-scrubber \
-	mariadb-libs
+	mariadb
 
 # build dependencies
 RUN apk --update add --virtual builddeps gcc perl-dev musl-dev make postgresql-dev zlib-dev expat-dev mariadb-dev
