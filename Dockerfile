@@ -36,6 +36,7 @@ RUN apk --update add apache2 fcgi apache-mod-fcgid perl postgresql-libs openssl 
 	perl-cgi-emulate-psgi \
 	perl-cgi-psgi \
 	perl-data-page-pageset \
+	perl-dbd-mysql \
 	perl-date-extract \
 	perl-datetime-format-natural \
 	perl-email-address \
@@ -82,15 +83,14 @@ RUN apk --update add apache2 fcgi apache-mod-fcgid perl postgresql-libs openssl 
 	perl-html-mason \
 	perl-mime-types \
 	perl-html-scrubber \
-	mariadb
+	perl-fcgi-procmanager \
+	mariadb \
+	mariadb-client
 
 # build dependencies
-RUN apk --update add --virtual builddeps gcc perl-dev musl-dev make postgresql-dev zlib-dev expat-dev mariadb-dev
-
-# use cpanminus to install modules not provided through apk
-RUN curl -L https://cpanmin.us > /bin/cpanm && chmod +x /bin/cpanm && cpanm -n -L /usr/local/lib/perl5/site_perl GnuPG::Interface PerlIO::eol DBD::mysql@4.041
-
-RUN cd /build/rt-${RT_VERSION} && ./configure \
+RUN apk --update add --virtual builddeps gcc perl-dev musl-dev make postgresql-dev zlib-dev expat-dev mariadb-dev \
+ && curl -L https://cpanmin.us > /bin/cpanm && chmod +x /bin/cpanm && cpanm -n GnuPG::Interface PerlIO::eol Net::LDAP::Server::Test \
+ && cd /build/rt-${RT_VERSION} && ./configure \
 		--prefix=/opt/rt \
 		--enable-gd \
 		--enable-smime \
@@ -100,6 +100,6 @@ RUN cd /build/rt-${RT_VERSION} && ./configure \
 		--with-web-user=root \
 		--with-web-group=root \
 	&& make testdeps \
-	&& make install
-RUN rm -rf /build && apk del builddeps	
+	&& make install \
+ && rm -rf /build && apk del builddeps	
 
